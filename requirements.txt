@@ -1,0 +1,17 @@
+python-dotenv
+
+# Google ADK + GenAI
+google-adk
+google-genai
+
+# Google APIs
+google-api-python-client
+google-auth
+google-auth-httplib2
+
+# HTTP + async sqlite
+requests
+aiosqlite
+
+# Web UI
+streamlit

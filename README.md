@@ -1,134 +1,109 @@
-# ⚙️ FlowGenie — Natural-Language Workflow Automation Designer
+# 🚀 FlowGenie — Natural Language Automation for Business
+Turn plain English into automated business workflows.
 
-### Track: Enterprise Agents  
-### Tech: Gemini 🔹 Google ADK 🔹 Multi-Agent 🔹 A2A 🔹 Evaluation 🔹 Sessions 🔹 Tools
+FlowGenie is an **enterprise multi-agent automation system** that converts natural language requests (e.g.  
+“Send a message to Slack and log the issue in Sheets”) into **end-to-end automated actions** across different tools.
 
-FlowGenie converts **plain English workflow requests** into **machine-ready automation pipelines** (JSON), evaluates them, and simulates execution.
-
-> “When a new support ticket arrives, add it to Google Sheets, email the support lead, and notify Slack.”
-
-FlowGenie detects:
-- **Trigger**
-- **Action sequence**
-- **Required systems (Sheets / Slack / Gmail / Calendar)**
-- **Execution order**
-- **Simulation status & summary**
-
-Project Description (≤1500 words)
-🔹 1. Problem
-
-Modern enterprise teams use multiple SaaS tools (Zendesk, CRM, Sheets, Email, Slack, Calendar, Jira, etc.) but daily workflows between them are still largely manual.
-Employees know exactly what automation they want, but they cannot translate business needs into API/system actions.
-
-Current automation barriers	              Result
-Need to understand workflows	     Non-technical users blocked
-Need to know API actions	         Long development cycles
-No-code tools still require logic	 Partial adoption
-Engineering bandwidth limited	     Automations pile up
-
-📌 Goal: Let a business user describe a workflow in natural language → and receive an instantly executable automation plan.
-
-🔹 2. Solution — FlowGenie
-
-FlowGenie is a multi-agent automation composer that converts natural-language instructions into complete automation workflows.
-
-Example input:
-“When a new support ticket arrives, add it to Google Sheets, email the support lead, and notify Slack.”
-FlowGenie produces:
-~ A structured workflow JSON
-~ A quality & safety evaluation score
-~ A step-by-step execution plan
-~ A simulation summary
-
-(Optional) actual API execution of Sheets / Gmail / Slack / Calendar if credentials are provided
-No technical knowledge required.
-
-
-## 🚀 Why FlowGenie
-Enterprise teams use 7–20 SaaS tools but workflows aren’t automated because:
-| Barrier | Reality |
-|--------|---------|
-| Manual work | Repetitive and slow |
-| No-code tools | Still require workflow logic knowledge |
-| APIs | Technical knowledge required |
-| Automation engineers | Limited bandwidth |
-
-FlowGenie removes the barrier → **describe a workflow as text → produce a working automation plan**.
+It is built for **non-technical business teams** — no scripting, no UI clicking, just chat.
 
 ---
 
-## 🧠 Architecture Overview
+## 🌟 Key Features
 
-┌──────────────┐
-│ User Prompt  │
-└───────┬──────┘
-        ▼
-┌─────────────────────┐
-│ Planner Agent       │ → JSON Workflow (trigger + actions)
-└─────────────────────┘
-        ▼
-┌─────────────────────┐
-│ Evaluator Agent     │ → Score, risks, suggested changes
-└─────────────────────┘
-        ▼
-┌──────────────────────────────────────────────┐
-│ Executor Agent (A2A Plan Generator)          │
-│   Determines which tool agent handles action │
-│   Generates execution plan + simulation      │
-└──────────────────────────────────────────────┘
-        ▼
-┌─────────────────────────────────────────────┐
-│ Action Router (A2A runtime)                 │
-│   Calls: Slack | Sheets | Gmail | Calendar  │
-└─────────────────────────────────────────────┘
-        ▼
-┌────────────────────┐
-│ Final JSON Summary │
-└────────────────────┘
+| Capability | Description |
+|-----------|-------------|
+| Multi-Agent Architecture | Planner → Evaluator → Executor → Tool Agents → Memory |
+| Natural Language Automation | “Send Slack message”, “Append row to Sheet”, “Schedule a meeting”, etc |
+| Real API Integrations | Slack, Google Sheets, Gmail, Google Calendar |
+| Long-Term Memory | Remembers user identity, preferences and past chats |
+| Session Management | Persistent via SQLite (auto restored across restarts) |
+| Automated Workflow Evaluation | Evaluates workflow safety & completeness |
+| A2A Execution | Agents call each other to complete actions |
 
+FlowGenie replaces manual business tasks — status updates, ticket creation, reminders, emails — with **fully automated workflows** triggered simply by chat.
+
+---
+
+## 🧠 How It Works
+User → Router → (Chat agent OR Automation agents)
+Automation Flow:
+Planner → Evaluator → Executor → Tool Agents (Slack / Sheets / Gmail / Calendar)
+Chat Flow:
+Chat Agent + Memory (SQLite) → natural conversation
 
 
 
 ---
 
-## 🔑 Features & Capstone Requirements Checklist
+## 🧩 Example Workflows
 
-| Requirement | Implemented |
-|------------|-------------|
-| Multi-agent | ✔ (Planner, Evaluator, Executor + 4 Tool Agents) |
-| A2A messaging | ✔ (Executor → Tool Agents) |
-| Tools | ✔ (Slack, Sheets, Gmail, Calendar) |
-| GeminI LLM agent | ✔ |
-| Sessions & Memory | ✔ (`InMemorySessionService`) |
-| Long-running simulation | ✔ (simulate_workflow_execution) |
-| Evaluation metrics | ✔ |
-| Observability | ✔ (`run_debug` per agent) |
-| Deployment optional | Stub and API ready |
+| Natural Language | Automation Performed |
+|------------------|---------------------|
+| "Send a Slack message to #support saying deployment successful" | Slack notification |
+| "Add a new record to my sheet: (004, Priya, Login issue, resolved)" | Append row to Google Sheets |
+| "Send email to manager with subject (Update) body (Deployment completed)" | Gmail |
+| "Schedule a meeting tomorrow 2–3 PM titled Sprint Demo" | Google Calendar |
 
 ---
 
-## 👁 Example Output
+## 🗂 Multi-Agent System Used
 
-```json
-{
-  "workflow": { ... },
-  "evaluation": { "overall_score": 8, "verdict": "ACCEPT" },
-  "action_plan": [
-    {"action_index": 1, "agent": "sheets_agent", "parameters": {...}},
-    {"action_index": 2, "agent": "gmail_agent", "parameters": {...}},
-    {"action_index": 3, "agent": "slack_agent", "parameters": {...}}
-  ],
-  "action_results": [
-    {"action_index": 1, "status": "skipped", "reason": "missing_credentials"},
-    {"action_index": 2, "status": "skipped", "reason": "missing_credentials"},
-    {"action_index": 3, "status": "success_stub"}
-  ],
-  "simulation": { "status": "completed", "total_steps": 3 },
-  "summary": "Workflow successfully executed in simulation mode."
-}
+| Role | Agent | Responsibility |
+|------|--------|----------------|
+| Routing | `intent_router` | Classifies chat vs automation |
+| Planning | `workflow_planner` | Turns prompt into workflow JSON |
+| Evaluation | `workflow_evaluator` | Scores workflow quality |
+| Execution | `workflow_executor` | Builds step-by-step tool plan |
+| Tools | `slack_agent`, `sheets_agent`, `gmail_agent`, `calendar_agent` | Run external APIs |
+| Chat | `chat_assistant` | Normal conversation + memory |
+
+---
+
+## 🛠 Supported Real APIs
+
+| System | Action |
+|--------|--------|
+| Slack | Send channel notification |
+| Google Sheets | Append row |
+| Gmail | Send email |
+| Google Calendar | Create event |
+
+> Full configuration instructions are in [`SETUP.md`](./SETUP.md)
+
+---
+
+## 🧪 Quick Start (Notebook)
+
+Run the notebook and then test:
+
+```python
+prompt = "Send a Slack notification to #new-channel now, saying I am Anchal and grateful!"
+result = await handle_user_input(prompt, session_id="demo")
+print(result)
+
+Or chat normally:
+
+prompt = "Hi, I am Kajal."
+print(await handle_user_input(prompt, session_id="demo"))
 
 
+## TODO LIST
 
-# Setup (no credentials required)
-pip install -U google-adk
-pip install python-dotenv
+## Deployment (Cloud Run example)
+
+This project can be containerized and deployed to a managed runtime like **Cloud Run**:
+
+# Build container
+gcloud builds submit --tag gcr.io/PROJECT_ID/flowgenie
+
+# Deploy to Cloud Run
+gcloud run deploy flowgenie \
+  --image gcr.io/PROJECT_ID/flowgenie \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated
+
+
+The container runs the Streamlit UI on port 8080.
+You can configure environment variables (GOOGLE_API_KEY, SLACK_WEBHOOK_URL, etc.)
+via the Cloud Run console or --set-env-vars.
