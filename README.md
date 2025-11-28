@@ -14,7 +14,35 @@ FlowGenie detects:
 - **Execution order**
 - **Simulation status & summary**
 
----
+Project Description (≤1500 words)
+🔹 1. Problem
+
+Modern enterprise teams use multiple SaaS tools (Zendesk, CRM, Sheets, Email, Slack, Calendar, Jira, etc.) but daily workflows between them are still largely manual.
+Employees know exactly what automation they want, but they cannot translate business needs into API/system actions.
+
+Current automation barriers	              Result
+Need to understand workflows	     Non-technical users blocked
+Need to know API actions	         Long development cycles
+No-code tools still require logic	 Partial adoption
+Engineering bandwidth limited	     Automations pile up
+
+📌 Goal: Let a business user describe a workflow in natural language → and receive an instantly executable automation plan.
+
+🔹 2. Solution — FlowGenie
+
+FlowGenie is a multi-agent automation composer that converts natural-language instructions into complete automation workflows.
+
+Example input:
+“When a new support ticket arrives, add it to Google Sheets, email the support lead, and notify Slack.”
+FlowGenie produces:
+~ A structured workflow JSON
+~ A quality & safety evaluation score
+~ A step-by-step execution plan
+~ A simulation summary
+
+(Optional) actual API execution of Sheets / Gmail / Slack / Calendar if credentials are provided
+No technical knowledge required.
+
 
 ## 🚀 Why FlowGenie
 Enterprise teams use 7–20 SaaS tools but workflows aren’t automated because:
